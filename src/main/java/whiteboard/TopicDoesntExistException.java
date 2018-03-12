@@ -1,7 +1,5 @@
 package whiteboard;
 
-import whiteboard.WhiteboardException;
-
 /**
  * TopicDoesntExistException is thrown when a Topic expected to exist doesn't.
  */

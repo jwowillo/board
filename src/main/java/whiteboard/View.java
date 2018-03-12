@@ -1,9 +1,5 @@
 package whiteboard;
 
-import whiteboard.Note;
-import whiteboard.Topic;
-import whiteboard.Whiteboard;
-
 import java.util.Set;
 
 /** View is an immutable Whiteboard. */

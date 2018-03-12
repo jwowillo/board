@@ -25,6 +25,7 @@ public class StoreObserver implements Observer {
   }
 
   /** observe stores the View. */
+  @Override
   public void observe(View view) {
     try {
       store.updateWhiteboard(view);

@@ -1,11 +1,5 @@
 package whiteboard;
 
-import whiteboard.NoteDoesntExistException;
-import whiteboard.NoteExistsException;
-import whiteboard.TopicDoesntExistException;
-import whiteboard.TopicExistsException;
-import whiteboard.WhiteboardException;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

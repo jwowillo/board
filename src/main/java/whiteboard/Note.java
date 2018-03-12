@@ -7,7 +7,7 @@ public class Note {
   private final String content;
 
   /** Note with the content. */
-  protected Note(String content) {
+  public Note(String content) {
     this.content = content;
   }
 

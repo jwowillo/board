@@ -1,9 +1,5 @@
 package whiteboard;
 
-import whiteboard.Observer;
-import whiteboard.Whiteboard;
-import whiteboard.WhiteboardException;
-
 import java.util.Collection;
 
 /**

@@ -4,9 +4,13 @@
 
 ## Building
 
-Build the documentation with `make doc`.
+Build `whiteboard` with `make`.
+
+Build 'doc' with `make doc`.
 
 ## Running
+
+Run `whiteboard` with `./run_whiteboard`.
 
 Run tests with `./run_tests`.
 
