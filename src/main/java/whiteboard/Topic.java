@@ -1,4 +1,4 @@
-package whiteboard;
+package board;
 
 /** Topic used to organize Notes. */
 public class Topic {

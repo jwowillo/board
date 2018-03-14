@@ -1,27 +1,27 @@
-package whiteboard;
+package board;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/** Whiteboard connects Topics and Notes. */
-public class Whiteboard {
+/** Board connects Topics and Notes. */
+public class Board {
 
   /** topics maps Topics to their Notes. */
   private final Map<Topic, Set<Note>> topics;
 
-  /** Whiteboard with no Topics and Notes. */
-  public Whiteboard() {
+  /** Board with no Topics and Notes. */
+  public Board() {
     this.topics = new HashMap<>();
   }
 
   /**
-   * addTopic to the Whiteboard.
+   * addTopic to the Board.
    *
-   * @throws WhiteboardException If the Topic is already on the Whiteboard.
+   * @throws BoardException If the Topic is already on the Board.
    */
-  public void addTopic(Topic topic) throws WhiteboardException {
+  public void addTopic(Topic topic) throws BoardException {
     if (topics.containsKey(topic)) {
       throw new TopicExistsException();
     }
@@ -31,10 +31,10 @@ public class Whiteboard {
   /**
    * addNote to the Topic.
    *
-   * @throws WhiteboardException If the Topic isn't on the Whiteboard or the
-   *                             Topic has the Note.
+   * @throws BoardException If the Topic isn't on the Board or the Topic has the
+   *                        Note.
    */
-  public void addNote(Topic topic, Note note) throws WhiteboardException {
+  public void addNote(Topic topic, Note note) throws BoardException {
     if (!topics.containsKey(topic)) {
       throw new TopicDoesntExistException();
     }
@@ -45,12 +45,12 @@ public class Whiteboard {
   }
 
   /**
-   * removeTopic removes the Topic from the Whiteboard along with all associated
+   * removeTopic removes the Topic from the Board along with all associated
    * Notes.
    *
-   * @throws WhiteboardException If the Topic isn't on the Whiteboard.
+   * @throws BoardException If the Topic isn't on the Board.
    */
-  public void removeTopic(Topic topic) throws WhiteboardException {
+  public void removeTopic(Topic topic) throws BoardException {
     if (!topics.containsKey(topic)) {
       throw new TopicDoesntExistException();
     }
@@ -60,10 +60,10 @@ public class Whiteboard {
   /**
    * removeNote removes the Note in the Topic.
    *
-   * @throws WhiteboardException If the Topic isn't on the Whiteboard or the
-   *                             Topic doesn't have the Note.
+   * @throws BoardException If the Topic isn't on the Board or the Topic doesn't
+   *                        have the Note.
    */
-  public void removeNote(Topic topic, Note note) throws WhiteboardException {
+  public void removeNote(Topic topic, Note note) throws BoardException {
     if (!topics.containsKey(topic)) {
       throw new TopicDoesntExistException();
     }
@@ -73,20 +73,12 @@ public class Whiteboard {
     topics.get(topic).remove(note);
   }
 
-  /**
-   * topics returns the Topics on the Whiteboard.
-   *
-   * <p>Mutating the returned Set won't mutate the Whiteboard.
-   */
+  /** topics returns a copy of the Topics on the Board. */
   public Set<Topic> topics() {
     return new HashSet<>(topics.keySet());
   }
 
-  /**
-   * notes returns the Notes for the Topic.
-   *
-   * <p>Mutating the returned Set won't mutate the Whiteboard.
-   */
+  /** notes returns a copy of the Notes for the Topic. */
   public Set<Note> notes(Topic topic) {
     if (!topics.containsKey(topic)) {
       return new HashSet<>();

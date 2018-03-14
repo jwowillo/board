@@ -1,27 +1,23 @@
-package whiteboard.observer;
+package board.observer;
 
-import whiteboard.View;
-import whiteboard.Whiteboard;
+import board.Board;
+import board.View;
 
-/** Store supports updating Whiteboards and retrieving Whiteboards. */
+/** Store supports updating and retrieving Boards. */
 public interface Store {
 
   /**
-   * updateWhiteboard from View in the Store.
+   * updateBoard from View in the Store and create it if it doesn't exist.
    *
-   * <p>Should create the Whiteboard if it doesn't exist.
-   *
-   * @throws StoreException If the Whiteboard couldn't be updated.
+   * @throws StoreException If the Board couldn't be updated.
    */
-  void updateWhiteboard(View view) throws StoreException;
+  void updateBoard(View view) throws StoreException;
 
   /**
-   * Whiteboard in the Store.
+   * Board in the Store or an empty Board if it doesn't exist.
    *
-   * <p>Should return an empty Whiteboard if it doesn't exist.
-   *
-   * @throws StoreException If the Whiteboard couldn't be retrieved.
+   * @throws StoreException If the Board couldn't be retrieved.
    */
-  Whiteboard whiteboard() throws StoreException;
+  Board board() throws StoreException;
 
 }

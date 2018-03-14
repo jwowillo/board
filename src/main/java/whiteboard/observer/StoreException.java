@@ -1,4 +1,4 @@
-package whiteboard.observer;
+package board.observer;
 
 /** StoreException is thrown when a Store has any failure. */
 public class StoreException extends Exception {

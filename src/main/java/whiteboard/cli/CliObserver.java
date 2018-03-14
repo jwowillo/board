@@ -1,14 +1,14 @@
-package whiteboard.cli;
+package board.cli;
 
-import whiteboard.Note;
-import whiteboard.Observer;
-import whiteboard.Topic;
-import whiteboard.View;
+import board.Note;
+import board.Observer;
+import board.Topic;
+import board.View;
 
 class CliObserver implements Observer {
 
   public void observe(View view) {
-    System.out.println("Whiteboard:");
+    System.out.println("Board:");
     System.out.println();
     for (Topic topic : view.topics()) {
       System.out.println(topic.name());

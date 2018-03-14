@@ -1,9 +1,9 @@
-package whiteboard.cli;
+package board.cli;
 
-import whiteboard.Manager;
-import whiteboard.Note;
-import whiteboard.Topic;
-import whiteboard.observer.Handler;
+import board.Manager;
+import board.Note;
+import board.Topic;
+import board.observer.Handler;
 
 import java.util.Scanner;
 

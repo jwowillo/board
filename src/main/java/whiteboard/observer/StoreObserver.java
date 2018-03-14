@@ -1,10 +1,10 @@
-package whiteboard.observer;
+package board.observer;
 
-import whiteboard.Note;
-import whiteboard.Observer;
-import whiteboard.Topic;
-import whiteboard.View;
-import whiteboard.WhiteboardException;
+import board.BoardException;
+import board.Note;
+import board.Observer;
+import board.Topic;
+import board.View;
 
 /** StoreObserver stores observed changes and defers Exceptions to a Handler. */
 public class StoreObserver implements Observer {
@@ -28,7 +28,7 @@ public class StoreObserver implements Observer {
   @Override
   public void observe(View view) {
     try {
-      store.updateWhiteboard(view);
+      store.updateBoard(view);
     } catch (StoreException exception) {
       handler.handle(exception);
     }

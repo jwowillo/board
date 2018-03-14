@@ -1,4 +1,4 @@
-package whiteboard.cli;
+package board.cli;
 
 public class ChoiceException extends Exception {
 

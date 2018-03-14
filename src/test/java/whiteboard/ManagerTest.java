@@ -1,4 +1,4 @@
-package whiteboard;
+package board;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,16 +18,16 @@ public class ManagerTest {
   }
 
   @Test
-  public void testConstructor() throws WhiteboardException {
-    Whiteboard w = new Whiteboard();
+  public void testConstructor() throws BoardException {
+    Board b = new Board();
     Set<Topic> ts = new HashSet<>();
     ts.add(new Topic("name"));
     Set<Note> ns = new HashSet<>();
     ns.add(new Note("content"));
     for (Topic t : ts) {
-      w.addTopic(t);
+      b.addTopic(t);
       for (Note n : ns) {
-        w.addNote(t, n);
+        b.addNote(t, n);
       }
     }
     Set<Observer> os = new HashSet<>();
@@ -35,21 +35,21 @@ public class ManagerTest {
     WrappedBoolean b2 = new WrappedBoolean();
     os.add(makeTopicsObserver(ts, (View v) -> true, b1));
     os.add(makeTopicsObserver(ts, (View v) -> true, b2));
-    Manager m = new Manager(w, os);
+    Manager m = new Manager(b, os);
     assertTrue(b1.isSet);
     assertTrue(b2.isSet);
   }
 
   @Test
-  public void testAddTopic() throws WhiteboardException {
-    Whiteboard w = new Whiteboard();
+  public void testAddTopic() throws BoardException {
+    Board b = new Board();
     WrappedBoolean b1 = new WrappedBoolean();
     WrappedBoolean b2 = new WrappedBoolean();
     Set<Observer> os = new HashSet<>();
     Set<Topic> ts = new HashSet<>();
     os.add(makeTopicsObserver(ts, (View v) -> v.topics().size() != 0, b1));
     os.add(makeTopicsObserver(ts, (View v) -> v.topics().size() != 0, b2));
-    Manager m = new Manager(w, os);
+    Manager m = new Manager(b, os);
     ts.add(new Topic("name"));
     for (Topic t : ts) {
       m.addTopic(t);
@@ -59,18 +59,18 @@ public class ManagerTest {
   }
 
   @Test
-  public void testAddTopicException() throws WhiteboardException {
-    Manager m = new Manager(new Whiteboard(), new HashSet<>());
+  public void testAddTopicException() throws BoardException {
+    Manager m = new Manager(new Board(), new HashSet<>());
     Topic t = new Topic("name");
     m.addTopic(t);
-    assertThrows(WhiteboardException.class, () -> m.addTopic(t));
+    assertThrows(BoardException.class, () -> m.addTopic(t));
   }
 
   @Test
-  public void testRemoveTopic() throws WhiteboardException {
-    Whiteboard w = new Whiteboard();
+  public void testRemoveTopic() throws BoardException {
+    Board b = new Board();
     Topic t = new Topic("name");
-    w.addTopic(t);
+    b.addTopic(t);
     WrappedBoolean b1 = new WrappedBoolean();
     WrappedBoolean b2 = new WrappedBoolean();
     WrappedBoolean isRemoved = new WrappedBoolean();
@@ -78,7 +78,7 @@ public class ManagerTest {
     Set<Observer> os = new HashSet<>();
     os.add(makeTopicsObserver(ts, (View v) -> isRemoved.isSet, b1));
     os.add(makeTopicsObserver(ts, (View v) -> isRemoved.isSet, b2));
-    Manager m = new Manager(w, os);
+    Manager m = new Manager(b, os);
     isRemoved.isSet = true;
     m.removeTopic(t);
     assertTrue(b1.isSet);
@@ -87,23 +87,23 @@ public class ManagerTest {
 
   @Test
   public void testRemoveTopicException() {
-    Manager m = new Manager(new Whiteboard(), new HashSet<>());
+    Manager m = new Manager(new Board(), new HashSet<>());
     Topic t = new Topic("name");
-    assertThrows(WhiteboardException.class, () -> m.removeTopic(t));
+    assertThrows(BoardException.class, () -> m.removeTopic(t));
   }
 
   @Test
-  public void testAddNote() throws WhiteboardException {
-    Whiteboard w = new Whiteboard();
+  public void testAddNote() throws BoardException {
+    Board b = new Board();
     Topic t = new Topic("name");
-    w.addTopic(t);
+    b.addTopic(t);
     WrappedBoolean b1 = new WrappedBoolean();
     WrappedBoolean b2 = new WrappedBoolean();
     Set<Note> ns = new HashSet<>();
     Set<Observer> os = new HashSet<>();
     os.add(makeNotesObserver(t, ns, (View v) -> ns.size() != 0, b1));
     os.add(makeNotesObserver(t, ns, (View v) -> ns.size() != 0, b2));
-    Manager m = new Manager(w, os);
+    Manager m = new Manager(b, os);
     ns.add(new Note("topic"));
     for (Note n : ns) {
       m.addNote(t, n);
@@ -114,19 +114,19 @@ public class ManagerTest {
 
   @Test
   public void testAddNoteException() {
-    Manager m = new Manager(new Whiteboard(), new HashSet<>());
+    Manager m = new Manager(new Board(), new HashSet<>());
     Topic t = new Topic("name");
     Note n = new Note("content");
-    assertThrows(WhiteboardException.class, () -> m.addNote(t, n));
+    assertThrows(BoardException.class, () -> m.addNote(t, n));
   }
 
   @Test
-  public void testRemoveNote() throws WhiteboardException {
-    Whiteboard w = new Whiteboard();
+  public void testRemoveNote() throws BoardException {
+    Board b = new Board();
     Topic t = new Topic("name");
     Note n  = new Note("content");
-    w.addTopic(t);
-    w.addNote(t, n);
+    b.addTopic(t);
+    b.addNote(t, n);
     WrappedBoolean b1 = new WrappedBoolean();
     WrappedBoolean b2 = new WrappedBoolean();
     WrappedBoolean isRemoved = new WrappedBoolean();
@@ -134,7 +134,7 @@ public class ManagerTest {
     Set<Observer> os = new HashSet<>();
     os.add(makeNotesObserver(t, ns, (View v) -> isRemoved.isSet, b1));
     os.add(makeNotesObserver(t, ns, (View v) -> isRemoved.isSet, b2));
-    Manager m = new Manager(w, os);
+    Manager m = new Manager(b, os);
     isRemoved.isSet = true;
     m.removeNote(t, n);
     assertTrue(b1.isSet);
@@ -143,10 +143,10 @@ public class ManagerTest {
 
   @Test
   public void testRemoveNoteException() {
-    Manager m = new Manager(new Whiteboard(), new HashSet<>());
+    Manager m = new Manager(new Board(), new HashSet<>());
     Topic t = new Topic("name");
     Note n = new Note("content");
-    assertThrows(WhiteboardException.class, () -> m.removeNote(t, n));
+    assertThrows(BoardException.class, () -> m.removeNote(t, n));
   }
 
   private Observer makeTopicsObserver(Set<Topic> ts, Function<View, Boolean> f,

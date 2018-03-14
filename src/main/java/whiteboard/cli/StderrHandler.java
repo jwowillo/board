@@ -1,6 +1,6 @@
-package whiteboard.cli;
+package board.cli;
 
-import whiteboard.observer.Handler;
+import board.observer.Handler;
 
 class StderrHandler implements Handler {
 

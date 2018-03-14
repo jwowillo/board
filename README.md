@@ -1,16 +1,17 @@
-# `whiteboard`
+# `board`
 
-`whiteboard` is a simple note-manager with a desktop interface.
+`board` is a simple note-manager with a desktop interface designed like a board
+notes can be tacked to.
 
 ## Building
 
-Build `whiteboard` with `make`.
+Build `board` with `make`.
 
 Build 'doc' with `make doc`.
 
 ## Running
 
-Run `whiteboard` with `./run_whiteboard`.
+Run `board` with `./run_board`.
 
 Run tests with `./run_tests`.
 

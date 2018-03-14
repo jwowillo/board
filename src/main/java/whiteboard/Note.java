@@ -1,4 +1,4 @@
-package whiteboard;
+package board;
 
 /** Note contains content. */
 public class Note {

@@ -1,6 +1,6 @@
-package whiteboard;
+package board;
 
-/** Observer observers Views of Whiteboards. */
+/** Observer observers Views of Boards. */
 @FunctionalInterface
 public interface Observer {
 

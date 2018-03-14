@@ -1,4 +1,4 @@
-package whiteboard.observer;
+package board.observer;
 
 /** Handler of Exceptions. */
 @FunctionalInterface
