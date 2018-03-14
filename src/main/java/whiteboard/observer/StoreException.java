@@ -5,7 +5,7 @@ public class StoreException extends Exception {
 
   /** StoreException initializes Exception with a fixed message. */
   public StoreException() {
-    super("couldn't store");
+    super("couldn't use store");
   }
 
 }

@@ -13,12 +13,12 @@ public class DbStore implements Store {
 
   @Override
   public void updateBoard(View view) throws StoreException {
-
+    throw new StoreException();
   }
 
   @Override
   public Board board() throws StoreException {
-    return new Board();
+    throw new StoreException();
   }
 
 }

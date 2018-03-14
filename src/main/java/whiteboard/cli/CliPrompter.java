@@ -49,7 +49,6 @@ class CliPrompter {
         }
       } catch (Exception exception) {
         handler.handle(exception);
-        System.out.println();
       }
     }
   }

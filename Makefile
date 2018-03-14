@@ -2,7 +2,7 @@
 
 all:
 	@echo Making board
-	@mvn package > /dev/null
+	@mvn package
 	@mv target/board-1.0-SNAPSHOT.jar .
 	@rm -rf target
 
