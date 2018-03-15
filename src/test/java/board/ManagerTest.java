@@ -41,24 +41,6 @@ public class ManagerTest {
   }
 
   @Test
-  public void testAddTopic() throws BoardException {
-    Board b = new Board();
-    WrappedBoolean b1 = new WrappedBoolean();
-    WrappedBoolean b2 = new WrappedBoolean();
-    Set<Observer> os = new HashSet<>();
-    Set<Topic> ts = new HashSet<>();
-    os.add(makeTopicsObserver(ts, (View v) -> v.topics().size() != 0, b1));
-    os.add(makeTopicsObserver(ts, (View v) -> v.topics().size() != 0, b2));
-    Manager m = new Manager(b, os);
-    ts.add(new Topic("name"));
-    for (Topic t : ts) {
-      m.addTopic(t);
-    }
-    assertTrue(b1.isSet);
-    assertTrue(b2.isSet);
-  }
-
-  @Test
   public void testAddTopicException() throws BoardException {
     Manager m = new Manager(new Board(), new HashSet<>());
     Topic t = new Topic("name");

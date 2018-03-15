@@ -2,7 +2,7 @@
 
 1. Notes should only contain text.
 2. Notes should be organized by topic.
-3. Notes should be filterable by search.
+3. Notes should be filterable.
 4. Notes should be displayed in the same order across uses.
 5. Notes should be stored persistently.
 6. CLI should be implemented.

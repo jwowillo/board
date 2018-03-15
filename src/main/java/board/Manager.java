@@ -2,6 +2,9 @@ package board;
 
 import java.util.Collection;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Manager mediates Board interactions.
  *
@@ -15,8 +18,11 @@ public class Manager {
   /** observers of the board. */
   private final Collection<Observer> observers;
 
+  private final Set<Filter> filters;
+
   /** Manager of Board which is observed by the Collection of Observers. */
   public Manager(Board board, Collection<Observer> observers) {
+    this.filters = new HashSet<>();
     this.board = board;
     this.observers = observers;
     notifyObservers();
@@ -62,9 +68,25 @@ public class Manager {
     notifyObservers();
   }
 
+  public void addFilter(Filter filter) throws FilterException {
+    if (filters.contains(filter)) {
+      throw new FilterExistsException();
+    }
+    filters.add(filter);
+    notifyObservers();
+  }
+
+  public void removeFilter(Filter filter) throws FilterException {
+    if (!filters.contains(filter)) {
+      throw new FilterDoesntExistException();
+    }
+    filters.remove(filter);
+    notifyObservers();
+  }
+
   /** notifyObservers notifies the Observers. */
   private void notifyObservers() {
-    View view = new View(board);
+    View view = new View(board, filters);
     for (Observer observer : observers) {
       observer.observe(view);
     }

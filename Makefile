@@ -13,6 +13,6 @@ doc:
 	@pandoc doc/design.md --latex-engine xelatex -o doc/design.pdf
 	@rm -rf doc/api
 	@mkdir doc/api
-	@mvn javadoc:javadoc > /dev/null
+	@mvn javadoc:javadoc
 	@mv target/site/apidocs/* doc/api
 	@rm -rf target

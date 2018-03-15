@@ -1,13 +1,15 @@
 package board.cli;
 
+import board.Filter;
 import board.Note;
-import board.Observer;
 import board.Topic;
 import board.View;
+import board.app.Displayer;
 
-class CliObserver implements Observer {
+class CliDisplayer implements Displayer {
 
-  public void observe(View view) {
+  @Override
+  public void display(View view) {
     System.out.println("Board:");
     System.out.println();
     for (Topic topic : view.topics()) {
@@ -18,6 +20,11 @@ class CliObserver implements Observer {
       }
       System.out.println();
     }
+    System.out.println("Filters:");
+    for (Filter filter : view.filters()) {
+      System.out.println(filter.term());
+    }
+    System.out.println();
   }
 
 }
