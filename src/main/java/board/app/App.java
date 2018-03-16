@@ -6,7 +6,6 @@ import board.Observer;
 import board.View;
 import board.observer.Handler;
 import board.observer.Store;
-import board.observer.StoreException;
 import board.observer.StoreObserver;
 
 import java.util.ArrayList;
@@ -60,7 +59,7 @@ public class App {
   private static Board loadBoard(Store store, Handler handler) {
     try {
       return store.board();
-    } catch (StoreException exception) {
+    } catch (Exception exception) {
       handler.handle(exception);
     }
     return new Board();

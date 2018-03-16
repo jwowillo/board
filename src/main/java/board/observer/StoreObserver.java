@@ -51,7 +51,7 @@ public class StoreObserver implements Observer {
           store.removeNote(topic, note);
         }
       }
-    } catch (StoreException exception) {
+    } catch (Exception exception) {
       handler.handle(exception);
     }
   }

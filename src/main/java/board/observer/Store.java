@@ -7,19 +7,19 @@ import board.Topic;
 /** Store supports updating and retrieving Boards. */
 public interface Store extends AutoCloseable {
 
-  void addTopic(Topic topic) throws StoreException;
+  void addTopic(Topic topic) throws Exception;
 
-  void removeTopic(Topic topic) throws StoreException;
+  void removeTopic(Topic topic) throws Exception;
 
-  void addNote(Topic topic, Note note) throws StoreException;
+  void addNote(Topic topic, Note note) throws Exception;
 
-  void removeNote(Topic topic, Note note) throws StoreException;
+  void removeNote(Topic topic, Note note) throws Exception;
 
   /**
    * Board in the Store or an empty Board if it doesn't exist.
    *
-   * @throws StoreException If the Board couldn't be retrieved.
+   * @throws Exception If the Board couldn't be retrieved.
    */
-  Board board() throws StoreException;
+  Board board() throws Exception;
 
 }
