@@ -83,13 +83,13 @@ public class DbStore implements Store {
 
   @Override
   public void close() throws SQLException {
-    connection.close();
     insertTopic.close();
     insertNote.close();
     removeTopic.close();
     removeNote.close();
     selectTopics.close();
     selectNotes.close();
+    connection.close();
   }
 
   private List<Topic> topics() throws SQLException {

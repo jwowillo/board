@@ -34,21 +34,22 @@ class CliPrompter implements Prompter {
     this.in = new Scanner(System.in);
     this.options = new TreeMap<>();
     options.put(1, new Pair("Add Topic",
-        m -> m.addTopic(promptTopic())));
+        m -> { m.addTopic(promptTopic()); return true; }));
     options.put(2, new Pair("Remove Topic",
-        m -> m.removeTopic(promptTopic())));
+        m -> { m.removeTopic(promptTopic()); return true; }));
     options.put(3, new Pair("Add Note",
-        m -> m.addNote(promptTopic(), promptNote())));
+        m -> { m.addNote(promptTopic(), promptNote()); return true; }));
     options.put(4, new Pair("Remove Note",
-        m -> m.removeNote(promptTopic(), promptNote())));
+        m -> { m.removeNote(promptTopic(), promptNote()); return true; }));
     options.put(5, new Pair("Add Filter",
-        m -> m.addFilter(promptFilter())));
+        m -> { m.addFilter(promptFilter()); return true; }));
     options.put(6, new Pair("Remove Filter",
-        m -> m.removeFilter(promptFilter())));
+        m -> { m.removeFilter(promptFilter()); return true; }));
+    options.put(7, new Pair("Exit", m -> false));
   }
 
   @Override
-  public void prompt(Manager manager) throws Exception {
+  public boolean prompt(Manager manager) throws Exception {
     System.out.println("Options:");
     for (Map.Entry<Integer, Pair> pair : options.entrySet()) {
       System.out.println(pair.getKey() + ". " + pair.getValue().label);
@@ -60,7 +61,7 @@ class CliPrompter implements Prompter {
     if (!options.containsKey(choice)) {
       throw new ChoiceException();
     }
-    options.get(choice).prompter.prompt(manager);
+    return options.get(choice).prompter.prompt(manager);
   }
 
   private Topic promptTopic() {

@@ -44,9 +44,10 @@ public class App {
       all.add((view) -> displayer.display(view));
       Board board = loadBoard(store, handler);
       Manager manager = new Manager(board, all);
-      while (true) {
+      boolean shouldPrompt = true;
+      while (shouldPrompt) {
         try {
-          prompter.prompt(manager);
+          shouldPrompt = prompter.prompt(manager);
         } catch (Exception exception) {
           handler.handle(exception);
         }
