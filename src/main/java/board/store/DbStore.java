@@ -26,22 +26,65 @@ public class DbStore implements Store {
   }
 
   @Override
-  public void updateBoard(View view) throws StoreException {
+  public void addTopic(Topic topic) throws StoreException {
     try (Connection connection = connection()) {
       createTables(connection);
-      try {
-        connection.setAutoCommit(false);
-        clearTables(connection);
-        insertTopics(connection, view.topics());
-        for (Topic topic : view.topics()) {
-          insertNotes(connection, topic, view.unfilteredNotes(topic));
-        }
-        connection.commit();
+      String insert = "INSERT INTO topic (name) VALUES (?)";
+      try (PreparedStatement statement = connection.prepareStatement(insert)) {
+        statement.setString(1, topic.name());
+        statement.executeUpdate();
       } catch (SQLException exception) {
-        connection.rollback();
         throw new StoreException();
-      } finally {
-        connection.setAutoCommit(true);
+      }
+    } catch (SQLException exception) {
+      throw new StoreException();
+    }
+  }
+
+  @Override
+  public void removeTopic(Topic topic) throws StoreException {
+    try (Connection connection = connection()) {
+      createTables(connection);
+      String delete = "DELETE FROM topic where name = ?";
+      try (PreparedStatement statement = connection.prepareStatement(delete)) {
+        statement.setString(1, topic.name());
+        statement.executeUpdate();
+      } catch (SQLException exception) {
+        throw new StoreException();
+      }
+    } catch (SQLException exception) {
+      throw new StoreException();
+    }
+  }
+
+  @Override
+  public void addNote(Topic topic, Note note) throws StoreException {
+    try (Connection connection = connection()) {
+      createTables(connection);
+      String insert = "INSERT INTO name (topic, content) VALUES (?, ?)";
+      try (PreparedStatement statement = connection.prepareStatement(insert)) {
+        statement.setString(1, topic.name());
+        statement.setString(2, note.content());
+        statement.executeUpdate();
+      } catch (SQLException exception) {
+        throw new StoreException();
+      }
+    } catch (SQLException exception) {
+      throw new StoreException();
+    }
+  }
+
+  @Override
+  public void removeNote(Topic topic, Note note) throws StoreException {
+    try (Connection connection = connection()) {
+      createTables(connection);
+      String delete = "DELETE FROM note WHERE topic = ? and name = ?";
+      try (PreparedStatement statement = connection.prepareStatement(delete)) {
+        statement.setString(1, topic.name());
+        statement.setString(2, note.content());
+        statement.executeUpdate();
+      } catch (SQLException exception) {
+        throw new StoreException();
       }
     } catch (SQLException exception) {
       throw new StoreException();
@@ -63,48 +106,6 @@ public class DbStore implements Store {
       throw new StoreException();
     }
     return board;
-  }
-
-  private void clearTables(Connection connection) throws StoreException {
-    String deleteTopic = "DELETE FROM topic";
-    String deleteNote = "DELETE FROM note";
-    try (PreparedStatement statement = connection.prepareStatement(deleteTopic)) {
-      statement.executeUpdate();
-    } catch (SQLException exception) {
-      throw new StoreException();
-    }
-    try (PreparedStatement statement = connection.prepareStatement(deleteNote)) {
-      statement.executeUpdate();
-    } catch (SQLException exception) {
-      throw new StoreException();
-    }
-  }
-
-  private void insertTopics(Connection connection,
-      List<Topic> topics) throws StoreException {
-    String insert = "INSERT INTO topic (name) VALUES (?)";
-    try (PreparedStatement statement = connection.prepareStatement(insert)) {
-      for (Topic topic : topics) {
-        statement.setString(1, topic.name());
-        statement.executeUpdate();
-      }
-    } catch (SQLException exception) {
-      throw new StoreException();
-    }
-  }
-
-  private void insertNotes(Connection connection,
-      Topic topic, List<Note> notes) throws StoreException {
-    String insert = "INSERT INTO note (topic, content) VALUES (?, ?)";
-    try (PreparedStatement statement = connection.prepareStatement(insert)) {
-      for (Note note : notes) {
-        statement.setString(1, topic.name());
-        statement.setString(2, note.content());
-        statement.executeUpdate();
-      }
-    } catch (SQLException exception) {
-      throw new StoreException();
-    }
   }
 
   private List<Topic> selectTopics(
