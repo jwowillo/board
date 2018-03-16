@@ -1,7 +1,9 @@
 package board;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 /** View is an immutable Board. */
 public class View {
@@ -12,7 +14,7 @@ public class View {
   private final Set<Filter> filters;
 
   public View(Board board) {
-    this(board, new HashSet<>());
+    this(board, new TreeSet<>());
   }
 
   /** View of the Board. */
@@ -21,18 +23,18 @@ public class View {
     this.filters = filters;
   }
 
-  public Set<Note> unfilteredNotes(Topic topic) {
+  public List<Note> unfilteredNotes(Topic topic) {
     return board.notes(topic);
   }
 
   /** topics from the View's Board. */
-  public Set<Topic> topics() {
+  public List<Topic> topics() {
     return board.topics();
   }
 
   /** notes from the View's Board. */
-  public Set<Note> notes(Topic topic) {
-    Set<Note> notes = new HashSet<>();
+  public List<Note> notes(Topic topic) {
+    List<Note> notes = new ArrayList<>();
     for (Note note : unfilteredNotes(topic)) {
       boolean shouldInclude = true;
       for (Filter filter : filters) {
@@ -48,8 +50,8 @@ public class View {
     return notes;
   }
 
-  public Set<Filter> filters() {
-    return filters;
+  public List<Filter> filters() {
+    return new ArrayList<>(filters);
   }
 
 }

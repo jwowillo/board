@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.function.Function;
+import java.util.ArrayList;
 
 public class ManagerTest {
 
@@ -138,7 +139,7 @@ public class ManagerTest {
         return;
       }
       b.isSet = true;
-      assertEquals(ts, v.topics());
+      assertEquals(new ArrayList<>(ts), v.topics());
     };
   }
 
@@ -149,7 +150,7 @@ public class ManagerTest {
         return;
       }
       b.isSet = true;
-      assertEquals(ns, v.notes(t));
+      assertEquals(new ArrayList<>(ns), v.notes(t));
     };
   }
 

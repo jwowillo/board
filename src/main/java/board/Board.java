@@ -1,9 +1,11 @@
 package board;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /** Board connects Topics and Notes. */
 public class Board {
@@ -13,7 +15,7 @@ public class Board {
 
   /** Board with no Topics and Notes. */
   public Board() {
-    this.topics = new HashMap<>();
+    this.topics = new TreeMap<>();
   }
 
   /**
@@ -25,7 +27,7 @@ public class Board {
     if (topics.containsKey(topic)) {
       throw new TopicExistsException();
     }
-    topics.put(topic, new HashSet<>());
+    topics.put(topic, new TreeSet<>());
   }
 
   /**
@@ -74,16 +76,16 @@ public class Board {
   }
 
   /** topics returns a copy of the Topics on the Board. */
-  public Set<Topic> topics() {
-    return new HashSet<>(topics.keySet());
+  public List<Topic> topics() {
+    return new ArrayList<>(topics.keySet());
   }
 
   /** notes returns a copy of the Notes for the Topic. */
-  public Set<Note> notes(Topic topic) {
+  public List<Note> notes(Topic topic) {
     if (!topics.containsKey(topic)) {
-      return new HashSet<>();
+      return new ArrayList<>();
     }
-    return new HashSet<>(topics.get(topic));
+    return new ArrayList<>(topics.get(topic));
   }
 
 }

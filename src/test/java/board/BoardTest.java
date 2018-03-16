@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.ArrayList;
 
 public class BoardTest {
 
@@ -20,7 +21,7 @@ public class BoardTest {
       b.addTopic(t);
       b.addNote(t, new Note("a"));
     }
-    assertEquals(ts, b.topics());
+    assertEquals(new ArrayList<>(ts), b.topics());
   }
 
   @Test
@@ -55,9 +56,9 @@ public class BoardTest {
     for (Note n : ns3) {
       b.addNote(t3, n);
     }
-    assertEquals(ns1, b.notes(t1));
-    assertEquals(ns2, b.notes(t2));
-    assertEquals(ns3, b.notes(t3));
+    assertEquals(new ArrayList<>(ns1), b.notes(t1));
+    assertEquals(new ArrayList<>(ns2), b.notes(t2));
+    assertEquals(new ArrayList<>(ns3), b.notes(t3));
   }
 
   @Test
@@ -111,9 +112,9 @@ public class BoardTest {
       b.addNote(t2, n);
     }
     b.removeNote(t1, a);
-    assertEquals(ns, b.notes(t1));
+    assertEquals(new ArrayList<>(ns), b.notes(t1));
     ns.add(a);
-    assertEquals(ns, b.notes(t2));
+    assertEquals(new ArrayList<>(ns), b.notes(t2));
   }
 
   @Test
@@ -143,7 +144,7 @@ public class BoardTest {
     for (Topic t : ts) {
       b.addTopic(t);
     }
-    assertEquals(ts, b.topics());
+    assertEquals(new ArrayList<>(ts), b.topics());
   }
 
   @Test
@@ -184,7 +185,7 @@ public class BoardTest {
     for (Note n : ns) {
       b.addNote(t1, n);
     }
-    assertEquals(ns, b.notes(t1));
+    assertEquals(new ArrayList<>(ns), b.notes(t1));
     assertEquals(0, b.notes(t2).size());
   }
 

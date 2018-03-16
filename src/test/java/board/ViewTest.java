@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.ArrayList;
 
 public class ViewTest {
 
@@ -20,9 +21,9 @@ public class ViewTest {
       b.addNote(t, new Note("a"));
     }
     View v = new View(b);
-    assertEquals(ts, v.topics());
+    assertEquals(new ArrayList<>(ts), v.topics());
     v.topics().clear();
-    assertEquals(ts, v.topics());
+    assertEquals(new ArrayList<>(ts), v.topics());
     for (Topic t : ts) {
       b.removeTopic(t);
     }
@@ -47,12 +48,12 @@ public class ViewTest {
       b.addNote(t2, n);
     }
     View v = new View(b);
-    assertEquals(ns1, v.notes(t1));
-    assertEquals(ns2, v.notes(t2));
+    assertEquals(new ArrayList<>(ns1), v.notes(t1));
+    assertEquals(new ArrayList<>(ns2), v.notes(t2));
     v.notes(t1).clear();
     v.notes(t2).clear();
-    assertEquals(ns1, v.notes(t1));
-    assertEquals(ns2, v.notes(t2));
+    assertEquals(new ArrayList<>(ns1), v.notes(t1));
+    assertEquals(new ArrayList<>(ns2), v.notes(t2));
     for (Note n : ns1) {
       b.removeNote(t1, n);
     }

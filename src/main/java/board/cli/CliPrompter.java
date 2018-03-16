@@ -33,24 +33,18 @@ class CliPrompter implements Prompter {
   public CliPrompter() {
     this.in = new Scanner(System.in);
     this.options = new TreeMap<>();
-    options.put(1, new Pair(
-          "Add Topic",
-          (Manager manager) -> manager.addTopic(promptTopic())));
-    options.put(2, new Pair(
-          "Remove Topic",
-          (Manager manager) -> manager.removeTopic(promptTopic())));
-    options.put(3, new Pair(
-          "Add Note",
-          (Manager manager) -> manager.addNote(promptTopic(), promptNote())));
-    options.put(4, new Pair(
-          "Remove Note",
-          (Manager manager) -> manager.removeNote(promptTopic(), promptNote())));
-    options.put(5, new Pair(
-          "Add Filter",
-          (Manager manager) -> manager.addFilter(promptFilter())));
-    options.put(6, new Pair(
-          "Remove Filter",
-          (Manager manager) -> manager.removeFilter(promptFilter())));
+    options.put(1, new Pair("Add Topic",
+        (Manager manager) -> manager.addTopic(promptTopic())));
+    options.put(2, new Pair("Remove Topic",
+        (Manager manager) -> manager.removeTopic(promptTopic())));
+    options.put(3, new Pair("Add Note",
+        (Manager manager) -> manager.addNote(promptTopic(), promptNote())));
+    options.put(4, new Pair("Remove Note",
+        (Manager manager) -> manager.removeNote(promptTopic(), promptNote())));
+    options.put(5, new Pair("Add Filter",
+        (Manager manager) -> manager.addFilter(promptFilter())));
+    options.put(6, new Pair("Remove Filter",
+        (Manager manager) -> manager.removeFilter(promptFilter())));
   }
 
   @Override

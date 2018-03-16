@@ -1,2 +1,4 @@
 doc/api
-board-1.0-SNAPSHOT.jar
+board.jar
+target
+board.db

@@ -1,7 +1,7 @@
 package board;
 
 /** Note contains content. */
-public class Note {
+public class Note implements Comparable<Note> {
 
   /** content of the Note. */
   private final String content;
@@ -29,6 +29,11 @@ public class Note {
   @Override
   public int hashCode() {
     return content.hashCode();
+  }
+
+  @Override
+  public int compareTo(Note note) {
+    return content.compareTo(note.content());
   }
 
 }
