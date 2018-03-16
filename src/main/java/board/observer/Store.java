@@ -5,7 +5,7 @@ import board.Note;
 import board.Topic;
 
 /** Store supports updating and retrieving Boards. */
-public interface Store {
+public interface Store extends AutoCloseable {
 
   void addTopic(Topic topic) throws StoreException;
 

@@ -2,8 +2,6 @@ package board;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 /** View is an immutable Board. */
 public class View {
@@ -11,14 +9,14 @@ public class View {
   /** board being viewed. */
   private final Board board;
 
-  private final Set<Filter> filters;
+  private final List<Filter> filters;
 
   public View(Board board) {
-    this(board, new TreeSet<>());
+    this(board, new ArrayList<>());
   }
 
   /** View of the Board. */
-  public View(Board board, Set<Filter> filters) {
+  public View(Board board, List<Filter> filters) {
     this.board = board;
     this.filters = filters;
   }

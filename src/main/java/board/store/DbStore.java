@@ -19,23 +19,30 @@ import java.util.List;
 
 public class DbStore implements Store {
 
-  private final String path;
+  private final Connection connection;
 
-  public DbStore(String path) {
-    this.path = path;
+  private final PreparedStatement insertTopic;
+
+  private final PreparedStatement insertNote;
+
+  private final PreparedStatement removeTopic;
+
+  private final PreparedStatement removeNote;
+
+  public DbStore(String path) throws StoreException {
+    this.connection = openConnection(path);
+    createTables();
+    this.insertTopic = prepareInsertTopic();
+    this.insertNote = prepareInsertNote();
+    this.removeTopic = prepareRemoveTopic();
+    this.removeNote = prepareRemoveNote();
   }
 
   @Override
   public void addTopic(Topic topic) throws StoreException {
-    try (Connection connection = connection()) {
-      createTables(connection);
-      String insert = "INSERT INTO topic (name) VALUES (?)";
-      try (PreparedStatement statement = connection.prepareStatement(insert)) {
-        statement.setString(1, topic.name());
-        statement.executeUpdate();
-      } catch (SQLException exception) {
-        throw new StoreException();
-      }
+    try {
+      insertTopic.setString(1, topic.name());
+      insertTopic.executeUpdate();
     } catch (SQLException exception) {
       throw new StoreException();
     }
@@ -43,15 +50,9 @@ public class DbStore implements Store {
 
   @Override
   public void removeTopic(Topic topic) throws StoreException {
-    try (Connection connection = connection()) {
-      createTables(connection);
-      String delete = "DELETE FROM topic where name = ?";
-      try (PreparedStatement statement = connection.prepareStatement(delete)) {
-        statement.setString(1, topic.name());
-        statement.executeUpdate();
-      } catch (SQLException exception) {
-        throw new StoreException();
-      }
+    try {
+      insertNote.setString(1, topic.name());
+      insertNote.executeUpdate();
     } catch (SQLException exception) {
       throw new StoreException();
     }
@@ -59,16 +60,10 @@ public class DbStore implements Store {
 
   @Override
   public void addNote(Topic topic, Note note) throws StoreException {
-    try (Connection connection = connection()) {
-      createTables(connection);
-      String insert = "INSERT INTO name (topic, content) VALUES (?, ?)";
-      try (PreparedStatement statement = connection.prepareStatement(insert)) {
-        statement.setString(1, topic.name());
-        statement.setString(2, note.content());
-        statement.executeUpdate();
-      } catch (SQLException exception) {
-        throw new StoreException();
-      }
+    try {
+      insertNote.setString(1, topic.name());
+      insertNote.setString(2, note.content());
+      insertNote.executeUpdate();
     } catch (SQLException exception) {
       throw new StoreException();
     }
@@ -76,16 +71,10 @@ public class DbStore implements Store {
 
   @Override
   public void removeNote(Topic topic, Note note) throws StoreException {
-    try (Connection connection = connection()) {
-      createTables(connection);
-      String delete = "DELETE FROM note WHERE topic = ? and name = ?";
-      try (PreparedStatement statement = connection.prepareStatement(delete)) {
-        statement.setString(1, topic.name());
-        statement.setString(2, note.content());
-        statement.executeUpdate();
-      } catch (SQLException exception) {
-        throw new StoreException();
-      }
+    try {
+      removeNote.setString(1, topic.name());
+      removeNote.setString(2, note.content());
+      removeNote.executeUpdate();
     } catch (SQLException exception) {
       throw new StoreException();
     }
@@ -94,22 +83,33 @@ public class DbStore implements Store {
   @Override
   public Board board() throws StoreException {
     Board board = new Board();
-    try (Connection connection = connection()) {
-      createTables(connection);
-      for (Topic topic : selectTopics(connection)) {
+    try {
+      for (Topic topic : selectTopics()) {
         board.addTopic(topic);
-        for (Note note : selectNotes(connection, topic)) {
+        for (Note note : selectNotes(topic)) {
           board.addNote(topic, note);
         }
       }
-    } catch (BoardException | SQLException exception) {
+    } catch (BoardException exception) {
       throw new StoreException();
     }
     return board;
   }
 
-  private List<Topic> selectTopics(
-      Connection connection) throws StoreException {
+  @Override
+  public void close() throws StoreException {
+    try {
+      connection.close();
+      insertTopic.close();
+      insertNote.close();
+      removeTopic.close();
+      removeNote.close();
+    } catch (SQLException exception) {
+      throw new StoreException();
+    }
+  }
+
+  private List<Topic> selectTopics() throws StoreException {
     String select = "SELECT name FROM topic ORDER BY rowid";
     try (PreparedStatement statement = connection.prepareStatement(select)) {
       try (ResultSet set = statement.executeQuery()) {
@@ -124,8 +124,7 @@ public class DbStore implements Store {
     }
   }
 
-  private List<Note> selectNotes(Connection connection,
-      Topic topic) throws StoreException {
+  private List<Note> selectNotes(Topic topic) throws StoreException {
     String select = "SELECT content FROM note WHERE topic = ? ORDER BY rowid";
     try (PreparedStatement statement = connection.prepareStatement(select)) {
       statement.setString(1, topic.name());
@@ -141,7 +140,7 @@ public class DbStore implements Store {
     }
   }
 
-  private void createTables(Connection connection) throws StoreException {
+  private void createTables() throws StoreException {
     String topic = "CREATE TABLE IF NOT EXISTS topic (\n"
         + "  name text PRIMARY KEY\n"
         + ")";
@@ -159,7 +158,31 @@ public class DbStore implements Store {
     }
   }
 
-  private Connection connection() throws StoreException {
+  private PreparedStatement prepareInsertTopic() throws StoreException {
+    return prepare("INSERT INTO topic (name) VALUES (?)");
+  }
+
+  private PreparedStatement prepareInsertNote() throws StoreException {
+    return prepare("INSERT INTO note (topic, content) VALUES (?, ?)");
+  }
+
+  private PreparedStatement prepareRemoveTopic() throws StoreException {
+    return prepare("DELETE FROM topic where name = ?");
+  }
+
+  private PreparedStatement prepareRemoveNote() throws StoreException {
+    return prepare("DELETE FROM note WHERE topic = ? and content = ?");
+  }
+
+  private PreparedStatement prepare(String statement) throws StoreException {
+    try {
+      return connection.prepareStatement(statement);
+    } catch (SQLException exception) {
+      throw new StoreException();
+    }
+  }
+
+  private static Connection openConnection(String path) throws StoreException {
     try {
       String url = String.format("jdbc:sqlite:%s", path);
       Connection connection = DriverManager.getConnection(url);

@@ -16,33 +16,44 @@ public class App {
 
   private final Prompter prompter;
 
-  private final Manager manager;
+  private final Displayer displayer;
 
   private final Handler handler;
 
-  public App(Prompter prompter, Displayer displayer, Store store,
-      Handler handler) {
-    this(prompter, displayer, store, handler, new ArrayList<>());
+  private final StoreSupplier supplier;
+
+  private final Collection<Observer> observers;
+
+  public App(Prompter prompter, Displayer displayer, Handler handler,
+      StoreSupplier supplier) {
+    this(prompter, displayer, handler, supplier, new ArrayList<>());
   }
 
-  public App(Prompter prompter, Displayer displayer, Store store,
-      Handler handler, Collection<Observer> observers) {
-    Collection<Observer> all = new ArrayList<>(observers);
-    all.add(new StoreObserver(store, handler));
-    all.add((View view) -> displayer.display(view));
-    Board board = loadBoard(store, handler);
+  public App(Prompter prompter, Displayer displayer, Handler handler,
+      StoreSupplier supplier, Collection<Observer> observers) {
     this.prompter = prompter;
-    this.manager = new Manager(board, all);
+    this.displayer = displayer;
     this.handler = handler;
+    this.supplier = supplier;
+    this.observers = observers;
   }
 
   public void run() {
-    while (true) {
-      try {
-        prompter.prompt(manager);
-      } catch (Exception exception) {
-        handler.handle(exception);
+    try (Store store = supplier.supply()) {
+      Collection<Observer> all = new ArrayList<>(observers);
+      all.add(new StoreObserver(store, handler));
+      all.add((view) -> displayer.display(view));
+      Board board = loadBoard(store, handler);
+      Manager manager = new Manager(board, all);
+      while (true) {
+        try {
+          prompter.prompt(manager);
+        } catch (Exception exception) {
+          handler.handle(exception);
+        }
       }
+    } catch (Exception exception) {
+      handler.handle(exception);
     }
   }
 

@@ -34,17 +34,17 @@ class CliPrompter implements Prompter {
     this.in = new Scanner(System.in);
     this.options = new TreeMap<>();
     options.put(1, new Pair("Add Topic",
-        (Manager manager) -> manager.addTopic(promptTopic())));
+        m -> m.addTopic(promptTopic())));
     options.put(2, new Pair("Remove Topic",
-        (Manager manager) -> manager.removeTopic(promptTopic())));
+        m -> m.removeTopic(promptTopic())));
     options.put(3, new Pair("Add Note",
-        (Manager manager) -> manager.addNote(promptTopic(), promptNote())));
+        m -> m.addNote(promptTopic(), promptNote())));
     options.put(4, new Pair("Remove Note",
-        (Manager manager) -> manager.removeNote(promptTopic(), promptNote())));
+        m -> m.removeNote(promptTopic(), promptNote())));
     options.put(5, new Pair("Add Filter",
-        (Manager manager) -> manager.addFilter(promptFilter())));
+        m -> m.addFilter(promptFilter())));
     options.put(6, new Pair("Remove Filter",
-        (Manager manager) -> manager.removeFilter(promptFilter())));
+        m -> m.removeFilter(promptFilter())));
   }
 
   @Override

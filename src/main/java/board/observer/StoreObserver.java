@@ -7,7 +7,8 @@ import board.Topic;
 import board.View;
 
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.LinkedHashSet;
+import java.util.stream.Collectors;
 
 /** StoreObserver stores observed changes and defers Exceptions to a Handler. */
 public class StoreObserver implements Observer {
@@ -32,31 +33,33 @@ public class StoreObserver implements Observer {
   public void observe(View view) {
     try {
       Board board = store.board();
-      Set<Topic> toAdd = new TreeSet<>(view.topics());
-      toAdd.removeAll(new TreeSet<>(board.topics()));
-      Set<Topic> toRemove = new TreeSet<>(board.topics());
-      toRemove.removeAll(new TreeSet<>(view.topics()));
-      for (Topic topic : toAdd) {
+      Set<Topic> newTopics = new LinkedHashSet<>(view.topics());
+      Set<Topic> oldTopics = new LinkedHashSet<>(board.topics());
+      for (Topic topic : difference(newTopics, oldTopics)) {
         store.addTopic(topic);
       }
-      for (Topic topic : toRemove) {
+      for (Topic topic : difference(oldTopics, newTopics)) {
         store.removeTopic(topic);
       }
       for (Topic topic : view.topics()) {
-        Set<Note> toAddNotes = new TreeSet<>(view.notes(topic));
-        toAddNotes.removeAll(new TreeSet<>(board.notes(topic)));
-        Set<Note> toRemoveNotes = new TreeSet<>(board.notes(topic));
-        toRemoveNotes.removeAll(new TreeSet<>(view.notes(topic)));
-        for (Note note : toAddNotes) {
+        Set<Note> newNotes = new LinkedHashSet<>(view.notes(topic));
+        Set<Note> oldNotes = new LinkedHashSet<>(board.notes(topic));
+        for (Note note : difference(newNotes, oldNotes)) {
           store.addNote(topic, note);
         }
-        for (Note note : toRemoveNotes) {
+        for (Note note : difference(oldNotes, newNotes)) {
           store.removeNote(topic, note);
         }
       }
     } catch (StoreException exception) {
       handler.handle(exception);
     }
+  }
+
+  private <T> Set<T> difference(Set<T> big, Set<T> small) {
+    return big.stream()
+      .filter(x -> !small.contains(x))
+      .collect(Collectors.toCollection(LinkedHashSet::new));
   }
 
 }

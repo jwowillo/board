@@ -2,7 +2,8 @@ package board;
 
 import java.util.Collection;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -22,7 +23,7 @@ public class Manager {
 
   /** Manager of Board which is observed by the Collection of Observers. */
   public Manager(Board board, Collection<Observer> observers) {
-    this.filters = new HashSet<>();
+    this.filters = new LinkedHashSet<>();
     this.board = board;
     this.observers = observers;
     notifyObservers();
@@ -86,7 +87,7 @@ public class Manager {
 
   /** notifyObservers notifies the Observers. */
   private void notifyObservers() {
-    View view = new View(board, filters);
+    View view = new View(board, new ArrayList<>(filters));
     for (Observer observer : observers) {
       observer.observe(view);
     }
