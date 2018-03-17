@@ -1,7 +1,7 @@
 package board;
 
 /** Topic used to organize Notes. */
-public class Topic implements Comparable<Topic> {
+public class Topic {
 
   /** name of the Topic. */
   private final String name;
@@ -29,11 +29,6 @@ public class Topic implements Comparable<Topic> {
   @Override
   public int hashCode() {
     return name.hashCode();
-  }
-
-  @Override
-  public int compareTo(Topic topic) {
-    return name.compareTo(topic.name());
   }
 
 }

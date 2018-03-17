@@ -6,8 +6,10 @@ import board.Topic;
 import board.View;
 import board.app.Displayer;
 
+/** CliDisplayer displays Views to the command-line. */
 class CliDisplayer implements Displayer {
 
+  /** display the View to the command-line. */
   @Override
   public void display(View view) {
     System.out.println("Board:");

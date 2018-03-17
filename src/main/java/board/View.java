@@ -2,25 +2,32 @@ package board;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
-/** View is an immutable Board. */
+/** View is an immutable view of a Board with filtered Notes. */
 public class View {
 
   /** board being viewed. */
   private final Board board;
 
+  /** filters on Notes. */
   private final List<Filter> filters;
 
+  /** View with no Filters. */
   public View(Board board) {
     this(board, new ArrayList<>());
   }
 
-  /** View of the Board. */
+  /** View of the Board with filters on Notes. */
   public View(Board board, List<Filter> filters) {
     this.board = board;
     this.filters = filters;
   }
 
+  /**
+   * unfilteredNotes returns the Notes for the Topic without applying any
+   * Filters.
+   */
   public List<Note> unfilteredNotes(Topic topic) {
     return board.notes(topic);
   }
@@ -34,20 +41,15 @@ public class View {
   public List<Note> notes(Topic topic) {
     List<Note> notes = new ArrayList<>();
     for (Note note : unfilteredNotes(topic)) {
-      boolean shouldInclude = true;
-      for (Filter filter : filters) {
-        if (!note.content().contains(filter.term())) {
-          shouldInclude = false;
-        }
+      Predicate<Filter> match = f -> !note.content().contains(f.term());
+      if (filters.stream().allMatch(match)) {
+        notes.add(note);
       }
-      if (!shouldInclude) {
-        continue;
-      }
-      notes.add(note);
     }
     return notes;
   }
 
+  /** filters applied to Notes. */
   public List<Filter> filters() {
     return new ArrayList<>(filters);
   }

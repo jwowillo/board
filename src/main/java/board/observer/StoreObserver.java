@@ -6,8 +6,8 @@ import board.Observer;
 import board.Topic;
 import board.View;
 
-import java.util.Set;
 import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /** StoreObserver stores observed changes and defers Exceptions to a Handler. */
@@ -39,6 +39,9 @@ public class StoreObserver implements Observer {
         store.addTopic(topic);
       }
       for (Topic topic : difference(oldTopics, newTopics)) {
+        for (Note note : board.notes(topic)) {
+          store.removeNote(topic, note);
+        }
         store.removeTopic(topic);
       }
       for (Topic topic : view.topics()) {

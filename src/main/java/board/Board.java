@@ -1,11 +1,11 @@
 package board;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 
 /** Board connects Topics and Notes. */
 public class Board {
@@ -13,7 +13,7 @@ public class Board {
   /** topics maps Topics to their Notes. */
   private final Map<Topic, Set<Note>> topics;
 
-  /** Board with no Topics and Notes. */
+  /** Board with no Topics and no Notes. */
   public Board() {
     this.topics = new LinkedHashMap<>();
   }
@@ -60,7 +60,7 @@ public class Board {
   }
 
   /**
-   * removeNote removes the Note in the Topic.
+   * removeNote removes the Note from the Topic.
    *
    * @throws BoardException If the Topic isn't on the Board or the Topic doesn't
    *                        have the Note.

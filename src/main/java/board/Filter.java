@@ -1,7 +1,7 @@
 package board;
 
 /** Filter for content. */
-public class Filter implements Comparable<Filter> {
+public class Filter {
 
   /** term filtered. */
   private final String term;
@@ -29,11 +29,6 @@ public class Filter implements Comparable<Filter> {
   @Override
   public int hashCode() {
     return term.hashCode();
-  }
-
-  @Override
-  public int compareTo(Filter filter) {
-    return term.compareTo(filter.term());
   }
 
 }
