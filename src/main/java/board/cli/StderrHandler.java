@@ -3,7 +3,7 @@ package board.cli;
 import board.observer.Handler;
 
 /** StderrHandler prints Exceptions to stderr. */
-class StderrHandler implements Handler {
+public class StderrHandler implements Handler {
 
   /** handle the Exception by printing it to stderr. */
   @Override

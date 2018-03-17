@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 /** CliPrompter prompts for actions from the command-line. */
-class CliPrompter implements Prompter {
+public class CliPrompter implements Prompter {
 
   /** Scanner to read input from. */
   private final Scanner in;

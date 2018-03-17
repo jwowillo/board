@@ -7,7 +7,7 @@ import board.View;
 import board.app.Displayer;
 
 /** CliDisplayer displays Views to the command-line. */
-class CliDisplayer implements Displayer {
+public class CliDisplayer implements Displayer {
 
   /** display the View to the command-line. */
   @Override

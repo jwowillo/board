@@ -2,8 +2,9 @@
 
 all:
 	@echo Making board
-	@mvn compile assembly:single
-	@mv target/board-1.0-SNAPSHOT-jar-with-dependencies.jar board.jar
+	@mvn package
+	@mv target/board_cli-jar-with-dependencies.jar board_cli.jar
+	@mv target/board_gui-jar-with-dependencies.jar board_gui.jar
 	@rm -rf target
 
 doc:
