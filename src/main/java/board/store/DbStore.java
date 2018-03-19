@@ -21,7 +21,7 @@ public class DbStore implements Store {
   private final Connection connection;
 
   /** insertTopic inserts a Topic. */
-  private final PreparedStatement insertTopic = prepareInsertTopic();
+  private final PreparedStatement insertTopic;
 
   /** insertNote inserts a Note. */
   private final PreparedStatement insertNote;
@@ -47,6 +47,7 @@ public class DbStore implements Store {
     this.connection = openConnection(path);
     createTables();
     this.insertNote = prepareInsertNote();
+    this.insertTopic = prepareInsertTopic();
     this.removeTopic = prepareRemoveTopic();
     this.removeNote = prepareRemoveNote();
     this.selectTopics = prepareSelectTopics();
