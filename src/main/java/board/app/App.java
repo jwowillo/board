@@ -30,28 +30,28 @@ public class App {
   /** Handler of Exceptions. */
   private final Handler handler;
 
-  /** StoreSupplier supplies the Store. */
+  /** Supplier of Stores. */
   private final StoreSupplier supplier;
 
   /** Observers of changes. */
   private final Collection<Observer> observers;
 
-  /** App with Prompter, Displayer, Handler, and StoreSupplier set. */
+  /** App with Prompter, Displayer, Store, and Handler set. */
   public App(Prompter prompter, Displayer displayer, Handler handler,
       StoreSupplier supplier) {
     this(prompter, displayer, handler, supplier, new ArrayList<>());
   }
 
   /**
-   * App with Prompter, Displayer, Handler, and StoreSupplier set and additional
+   * App with Prompter, Displayer, Store, and Handler set and additional
    * Observers observing.
    */
   public App(Prompter prompter, Displayer displayer, Handler handler,
-      StoreSupplier supplier, Collection<Observer> observers) {
+        StoreSupplier supplier, Collection<Observer> observers) {
     this.prompter = prompter;
     this.displayer = displayer;
-    this.handler = handler;
     this.supplier = supplier;
+    this.handler = handler;
     this.observers = observers;
   }
 
@@ -63,13 +63,10 @@ public class App {
       all.add((view) -> displayer.display(view));
       Board board = loadBoard(store, handler);
       Manager manager = new Manager(board, all);
-      boolean shouldPrompt = true;
-      while (shouldPrompt) {
-        try {
-          shouldPrompt = prompter.prompt(manager);
-        } catch (Exception exception) {
-          handler.handle(exception);
-        }
+      try {
+        prompter.prompt(manager);
+      } catch (Exception exception) {
+        handler.handle(exception);
       }
     } catch (Exception exception) {
       handler.handle(exception);

@@ -7,6 +7,9 @@ import java.util.Set;
 
 /**
  * Manager mediates Board interactions and notifies all Observers of changes.
+ *
+ * If an Observer takes long to observe, it is recommended to have it observe in
+ * a separate thread.
  */
 public class Manager {
 

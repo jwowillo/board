@@ -21,7 +21,7 @@ public class DbStore implements Store {
   private final Connection connection;
 
   /** insertTopic inserts a Topic. */
-  private final PreparedStatement insertTopic;
+  private final PreparedStatement insertTopic = prepareInsertTopic();
 
   /** insertNote inserts a Note. */
   private final PreparedStatement insertNote;
@@ -46,7 +46,6 @@ public class DbStore implements Store {
   public DbStore(String path) throws SQLException {
     this.connection = openConnection(path);
     createTables();
-    this.insertTopic = prepareInsertTopic();
     this.insertNote = prepareInsertNote();
     this.removeTopic = prepareRemoveTopic();
     this.removeNote = prepareRemoveNote();
@@ -253,7 +252,7 @@ public class DbStore implements Store {
    *
    * @throws SQLException If the Connection couldn't be made.
    */
-  private static Connection openConnection(String path) throws SQLException {
+  private Connection openConnection(String path) throws SQLException {
     String url = String.format("jdbc:sqlite:%s", path);
     Connection connection = DriverManager.getConnection(url);
     try (Statement statement = connection.createStatement()) {

@@ -31,32 +31,34 @@ public class StoreObserver implements Observer {
   /** observe stores the View. */
   @Override
   public void observe(View view) {
-    try {
-      Board board = store.board();
-      Set<Topic> newTopics = new LinkedHashSet<>(view.topics());
-      Set<Topic> oldTopics = new LinkedHashSet<>(board.topics());
-      for (Topic topic : difference(newTopics, oldTopics)) {
-        store.addTopic(topic);
-      }
-      for (Topic topic : difference(oldTopics, newTopics)) {
-        for (Note note : board.notes(topic)) {
-          store.removeNote(topic, note);
+    new Thread(() -> {
+      try {
+        Board board = store.board();
+        Set<Topic> newTopics = new LinkedHashSet<>(view.topics());
+        Set<Topic> oldTopics = new LinkedHashSet<>(board.topics());
+        for (Topic topic : difference(newTopics, oldTopics)) {
+          store.addTopic(topic);
         }
-        store.removeTopic(topic);
-      }
-      for (Topic topic : view.topics()) {
-        Set<Note> newNotes = new LinkedHashSet<>(view.notes(topic));
-        Set<Note> oldNotes = new LinkedHashSet<>(board.notes(topic));
-        for (Note note : difference(newNotes, oldNotes)) {
-          store.addNote(topic, note);
+        for (Topic topic : difference(oldTopics, newTopics)) {
+          for (Note note : board.notes(topic)) {
+            store.removeNote(topic, note);
+          }
+          store.removeTopic(topic);
         }
-        for (Note note : difference(oldNotes, newNotes)) {
-          store.removeNote(topic, note);
+        for (Topic topic : view.topics()) {
+          Set<Note> newNotes = new LinkedHashSet<>(view.notes(topic));
+          Set<Note> oldNotes = new LinkedHashSet<>(board.notes(topic));
+          for (Note note : difference(newNotes, oldNotes)) {
+            store.addNote(topic, note);
+          }
+          for (Note note : difference(oldNotes, newNotes)) {
+            store.removeNote(topic, note);
+          }
         }
+      } catch (Exception exception) {
+        handler.handle(exception);
       }
-    } catch (Exception exception) {
-      handler.handle(exception);
-    }
+    }).start();
   }
 
   private <T> Set<T> difference(Set<T> big, Set<T> small) {
