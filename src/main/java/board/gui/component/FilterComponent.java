@@ -4,9 +4,9 @@ import board.Filter;
 import board.Manager;
 import board.observer.Handler;
 
-public class FilterRow extends RemoveRow {
+public class FilterComponent extends RemoveComponent {
 
-  public FilterRow(Manager manager, Handler handler, Filter filter) {
+  public FilterComponent(Manager manager, Handler handler, Filter filter) {
     super(filter.term(), () -> {
       try {
         manager.removeFilter(filter);

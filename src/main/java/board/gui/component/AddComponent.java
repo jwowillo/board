@@ -4,13 +4,13 @@ import javafx.scene.control.TextArea;
 
 import java.util.function.Consumer;
 
-public class AddRow extends Row {
+public class AddComponent extends ActionComponent {
 
-  public AddRow(Consumer<String> consumer) {
+  public AddComponent(Consumer<String> consumer) {
     this(consumer, new TextArea());
   }
 
-  private AddRow(Consumer<String> consumer, TextArea text) {
+  private AddComponent(Consumer<String> consumer, TextArea text) {
     super(text, "+", () -> consumer.accept(text.getText()));
   }
 

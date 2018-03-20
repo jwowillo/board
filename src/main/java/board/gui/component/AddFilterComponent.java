@@ -1,16 +1,15 @@
 package board.gui.component;
 
+import board.Filter;
 import board.Manager;
-import board.Note;
-import board.Topic;
 import board.observer.Handler;
 
-public class AddNoteRow extends AddRow {
+public class AddFilterComponent extends AddComponent {
 
-  public AddNoteRow(Manager manager, Handler handler, Topic topic) {
+  public AddFilterComponent(Manager manager, Handler handler) {
     super((t) -> {
       try {
-        manager.addNote(topic, new Note(t));
+        manager.addFilter(new Filter(t));
       } catch (Exception exception) {
         handler.handle(exception);
       }

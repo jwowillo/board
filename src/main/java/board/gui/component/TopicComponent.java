@@ -1,16 +1,15 @@
 package board.gui.component;
 
 import board.Manager;
-import board.Note;
 import board.Topic;
 import board.observer.Handler;
 
-public class NoteRow extends RemoveRow {
+public class TopicComponent extends RemoveComponent {
 
-  public NoteRow(Manager manager, Handler handler, Topic topic, Note note) {
-    super(note.content(), () -> {
+  public TopicComponent(Manager manager, Handler handler, Topic topic) {
+    super(topic.name(), () -> {
       try {
-        manager.removeNote(topic, note);
+        manager.removeTopic(topic);
       } catch (Exception exception) {
         handler.handle(exception);
       }

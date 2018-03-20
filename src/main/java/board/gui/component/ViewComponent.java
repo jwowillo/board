@@ -5,45 +5,43 @@ import board.Manager;
 import board.View;
 import board.observer.Handler;
 
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
-public class Display extends VBox {
+public class ViewComponent extends VBox {
 
   private final Handler handler;
 
   private final Board initialBoard = new Board();
 
-  private Manager currentManager = new Manager(initialBoard, new ArrayList<>());
+  private Manager manager = new Manager(initialBoard, new ArrayList<>());
 
-  private View currentView = new View(initialBoard);
+  private View view = new View(initialBoard);
 
-
-  public Display(Handler handler) {
+  public ViewComponent(Handler handler) {
     this.handler = handler;
     showManagerAndView();
   }
 
   public void setManager(Manager manager) {
-    currentManager = manager;
+    this.manager = manager;
     getChildren().clear();
     showManagerAndView();
   }
 
   public void show(View view) {
-    currentView = view;
+    this.view = view;
     getChildren().clear();
     showManagerAndView();
   }
 
   private void showManagerAndView() {
-    ViewScroll viewScroll = new ViewScroll(currentManager, currentView,
-        handler);
-    FilterScroll filterScroll = new FilterScroll(currentManager, currentView,
-        handler);
-    getChildren().addAll(viewScroll, filterScroll);
+    BoardComponent board = new BoardComponent(manager, view, handler);
+    FiltersComponent filters = new FiltersComponent(manager, view, handler);
+    getChildren().addAll(board, filters);
   }
 
 }

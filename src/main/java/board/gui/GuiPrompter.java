@@ -3,28 +3,28 @@ package board.gui;
 import board.Manager;
 import board.app.Prompter;
 import board.observer.Handler;
-import board.gui.component.Display;
+import board.gui.component.ViewComponent;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class GuiPrompter implements Prompter {
 
-  private final Display display;
+  private final ViewComponent view;
 
   public GuiPrompter(Handler handler) {
-    this.display = new Display(handler);
+    this.view = new ViewComponent(handler);
   }
 
-  public Display display() {
-    return display;
+  public ViewComponent view() {
+    return view;
   }
 
   @Override
   public void prompt(Manager manager) {
     Stage stage = new Stage();
-    display.setManager(manager);
-    stage.setScene(new Scene(display));
+    view.setManager(manager);
+    stage.setScene(new Scene(view));
     stage.showAndWait();
   }
 

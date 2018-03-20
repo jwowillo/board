@@ -2,19 +2,19 @@ package board.gui;
 
 import board.View;
 import board.app.Displayer;
-import board.gui.component.Display;
+import board.gui.component.ViewComponent;
 
 public class GuiDisplayer implements Displayer {
 
-  private final Display display;
+  private final ViewComponent viewComponent;
 
-  public GuiDisplayer(Display display) {
-    this.display = display;
+  public GuiDisplayer(ViewComponent viewComponent) {
+    this.viewComponent = viewComponent;
   }
 
   @Override
   public void display(View view) {
-    display.show(view);
+    viewComponent.show(view);
   }
 
 }

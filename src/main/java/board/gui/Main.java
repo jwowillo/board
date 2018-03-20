@@ -21,7 +21,7 @@ public class Main extends Application {
   public void start(Stage stage) {
     Handler handler = new GuiHandler();
     GuiPrompter prompter = new GuiPrompter(handler);
-    Displayer displayer = new GuiDisplayer(prompter.display());
+    Displayer displayer = new GuiDisplayer(prompter.view());
     StoreSupplier supplier = () -> new DbStore("board.db");
     new App(prompter, displayer, handler, supplier).run();
   }
