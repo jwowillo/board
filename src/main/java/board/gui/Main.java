@@ -19,11 +19,10 @@ public class Main extends Application {
 
   @Override
   public void start(Stage stage) {
-    Handler handler = new GuiHandler();
-    GuiPrompter prompter = new GuiPrompter(handler);
-    Displayer displayer = new GuiDisplayer((v) -> prompter.updateView(v));
+    var handler = new GuiHandler();
+    var gui = new Gui(handler);
     StoreSupplier supplier = () -> new DbStore("board.db");
-    new App(prompter, displayer, handler, supplier).run();
+    new App(gui, gui, handler, supplier).run();
   }
 
 }

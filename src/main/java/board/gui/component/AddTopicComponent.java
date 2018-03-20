@@ -7,7 +7,7 @@ import board.observer.Handler;
 public class AddTopicComponent extends AddComponent {
 
   public AddTopicComponent(Manager manager, Handler handler) {
-    super((t) -> {
+    super(t -> {
       try {
         manager.addTopic(new Topic(t));
       } catch (Exception exception) {

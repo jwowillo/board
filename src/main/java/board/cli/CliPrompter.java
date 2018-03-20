@@ -81,7 +81,7 @@ public class CliPrompter implements Prompter {
   public void prompt(Manager manager) {
     while (true) {
       System.out.println("Options:");
-      for (Map.Entry<Integer, Pair> pair : options.entrySet()) {
+      for (var pair : options.entrySet()) {
         System.out.println(pair.getKey() + ". " + pair.getValue().label);
       }
       System.out.println(String.format("%d. Exit", options.size() + 1));
@@ -106,7 +106,7 @@ public class CliPrompter implements Prompter {
   /** promptTopic from the command-line. */
   private Topic promptTopic() {
     System.out.print("Topic Name: ");
-    Topic topic =  new Topic(in.nextLine());
+    var topic =  new Topic(in.nextLine());
     System.out.println();
     return topic;
   }
@@ -114,7 +114,7 @@ public class CliPrompter implements Prompter {
   /** promptNote from the command-line. */
   private Note promptNote() {
     System.out.print("Note Content: ");
-    Note note = new Note(in.nextLine());
+    var note = new Note(in.nextLine());
     System.out.println();
     return note;
   }

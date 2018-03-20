@@ -3,6 +3,7 @@ package board.gui;
 import board.Board;
 import board.Manager;
 import board.View;
+import board.app.Displayer;
 import board.app.Prompter;
 import board.observer.Handler;
 import board.gui.component.ViewComponent;
@@ -10,7 +11,7 @@ import board.gui.component.ViewComponent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class GuiPrompter implements Prompter {
+public class Gui implements Prompter, Displayer {
 
   private final Stage stage;
 
@@ -20,17 +21,9 @@ public class GuiPrompter implements Prompter {
 
   private View view;
 
-  public GuiPrompter(Handler handler) {
+  public Gui(Handler handler) {
     this.stage = new Stage();
     this.handler = handler;
-  }
-
-  public void updateView(View view) {
-    this.view = view;
-    if (manager == null) {
-      return;
-    }
-    stage.setScene(new Scene(new ViewComponent(manager, view, handler)));
   }
 
   @Override
@@ -38,6 +31,19 @@ public class GuiPrompter implements Prompter {
     this.manager = manager;
     updateView(view);
     stage.showAndWait();
+  }
+
+  @Override
+  public void display(View view) {
+    updateView(view);
+  }
+
+  private void updateView(View view) {
+    this.view = view;
+    if (manager == null) {
+      return;
+    }
+    stage.setScene(new Scene(new ViewComponent(manager, view, handler)));
   }
 
 }

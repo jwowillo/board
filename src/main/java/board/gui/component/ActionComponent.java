@@ -9,11 +9,9 @@ import javafx.scene.layout.HBox;
 public class ActionComponent extends HBox {
 
   public ActionComponent(Node node, String buttonText, Runnable runnable) {
-    Button button = new Button(buttonText);
+    var button = new Button(buttonText);
     button.setOnAction(e -> runnable.run());
-    getChildren().add(node);
-    getChildren().add(button);
-
+    getChildren().addAll(node, button);
   }
 
 }

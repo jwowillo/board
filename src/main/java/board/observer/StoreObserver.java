@@ -34,24 +34,24 @@ public class StoreObserver implements Observer {
     new Thread(() -> {
       try {
         Board board = store.board();
-        Set<Topic> newTopics = new LinkedHashSet<>(view.topics());
-        Set<Topic> oldTopics = new LinkedHashSet<>(board.topics());
-        for (Topic topic : difference(newTopics, oldTopics)) {
+        var newTopics = new LinkedHashSet<Topic>(view.topics());
+        var oldTopics = new LinkedHashSet<Topic>(board.topics());
+        for (var topic : difference(newTopics, oldTopics)) {
           store.addTopic(topic);
         }
-        for (Topic topic : difference(oldTopics, newTopics)) {
-          for (Note note : board.notes(topic)) {
+        for (var topic : difference(oldTopics, newTopics)) {
+          for (var note : board.notes(topic)) {
             store.removeNote(topic, note);
           }
           store.removeTopic(topic);
         }
-        for (Topic topic : view.topics()) {
-          Set<Note> newNotes = new LinkedHashSet<>(view.notes(topic));
-          Set<Note> oldNotes = new LinkedHashSet<>(board.notes(topic));
-          for (Note note : difference(newNotes, oldNotes)) {
+        for (var topic : view.topics()) {
+          var newNotes = new LinkedHashSet<Note>(view.notes(topic));
+          var oldNotes = new LinkedHashSet<Note>(board.notes(topic));
+          for (var note : difference(newNotes, oldNotes)) {
             store.addNote(topic, note);
           }
-          for (Note note : difference(oldNotes, newNotes)) {
+          for (var note : difference(oldNotes, newNotes)) {
             store.removeNote(topic, note);
           }
         }

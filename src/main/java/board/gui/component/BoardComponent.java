@@ -1,7 +1,6 @@
 package board.gui.component;
 
 import board.Manager;
-import board.Topic;
 import board.View;
 import board.observer.Handler;
 
@@ -17,14 +16,14 @@ public class BoardComponent extends ScrollPane {
     setHbarPolicy(ScrollBarPolicy.NEVER);
     setFitToWidth(true);
     setFitToHeight(true);
-    FlowPane pane = new FlowPane();
-    for (Topic topic : view.topics()) {
-      TopicAndNotesComponent component = new TopicAndNotesComponent(manager,
-          handler, topic, view.notes(topic));
+    var pane = new FlowPane();
+    for (var topic : view.topics()) {
+      var component = new TopicAndNotesComponent(manager, handler, topic,
+          view.notes(topic));
       pane.getChildren().add(component);
     }
     pane.getChildren().add(new AddTopicComponent(manager, handler));
-    VBox root = new VBox();
+    var root = new VBox();
     root.getChildren().addAll(new Label("Board:"), pane);
     setContent(root);
   }

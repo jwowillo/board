@@ -1,8 +1,5 @@
 package board.cli;
 
-import board.Filter;
-import board.Note;
-import board.Topic;
 import board.View;
 import board.app.Displayer;
 
@@ -14,16 +11,16 @@ public class CliDisplayer implements Displayer {
   public void display(View view) {
     System.out.println("Board:");
     System.out.println();
-    for (Topic topic : view.topics()) {
+    for (var topic : view.topics()) {
       System.out.println(topic.name());
       System.out.println("----------------");
-      for (Note note : view.notes(topic)) {
+      for (var note : view.notes(topic)) {
         System.out.println(note.content());
       }
       System.out.println();
     }
     System.out.println("Filters:");
-    for (Filter filter : view.filters()) {
+    for (var filter : view.filters()) {
       System.out.println(filter.term());
     }
     System.out.println();

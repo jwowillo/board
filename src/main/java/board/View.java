@@ -39,8 +39,8 @@ public class View {
 
   /** notes from the View's Board. */
   public List<Note> notes(Topic topic) {
-    List<Note> notes = new ArrayList<>();
-    for (Note note : unfilteredNotes(topic)) {
+    var notes = new ArrayList<Note>();
+    for (var note : unfilteredNotes(topic)) {
       Predicate<Filter> match = f -> note.content().contains(f.term());
       if (filters.stream().allMatch(match)) {
         notes.add(note);

@@ -102,8 +102,8 @@ public class Manager {
 
   /** notifyObservers notifies the Observers. */
   private void notifyObservers() {
-    View view = new View(board, new ArrayList<>(filters));
-    for (Observer observer : observers) {
+    var view = new View(board, new ArrayList<>(filters));
+    for (var observer : observers) {
       observer.observe(view);
     }
   }

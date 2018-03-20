@@ -8,7 +8,7 @@ import board.observer.Handler;
 public class AddNoteComponent extends AddComponent {
 
   public AddNoteComponent(Manager manager, Handler handler, Topic topic) {
-    super((t) -> {
+    super(t -> {
       try {
         manager.addNote(topic, new Note(t));
       } catch (Exception exception) {

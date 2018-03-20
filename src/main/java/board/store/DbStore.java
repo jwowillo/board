@@ -8,9 +8,7 @@ import board.observer.Store;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,10 +105,10 @@ public class DbStore implements Store {
    */
   @Override
   public Board board() throws Exception {
-    Board board = new Board();
-    for (Topic topic : topics()) {
+    var board = new Board();
+    for (var topic : topics()) {
       board.addTopic(topic);
-      for (Note note : notes(topic)) {
+      for (var note : notes(topic)) {
         board.addNote(topic, note);
       }
     }
@@ -139,8 +137,8 @@ public class DbStore implements Store {
    * @throws SQLException If the Topics couldn't be retrieved.
    */
   private List<Topic> topics() throws SQLException {
-    List<Topic> topics = new ArrayList<>();
-    try (ResultSet set = selectTopics.executeQuery()) {
+    var topics = new ArrayList<Topic>();
+    try (var set = selectTopics.executeQuery()) {
       while (set.next()) {
         topics.add(new Topic(set.getString("name")));
       }
@@ -154,9 +152,9 @@ public class DbStore implements Store {
    * @throws SQLException If the Notes couldn't be retrieved.
    */
   private List<Note> notes(Topic topic) throws SQLException {
-    List<Note> notes = new ArrayList<>();
+    var notes = new ArrayList<Note>();
     selectNotes.setString(1, topic.name());
-    try (ResultSet set = selectNotes.executeQuery()) {
+    try (var set = selectNotes.executeQuery()) {
       while (set.next()) {
         notes.add(new Note(set.getString("content")));
       }
@@ -170,16 +168,16 @@ public class DbStore implements Store {
    * @throws SQLException If the tables couldn't be created.
    */
   private void createTables() throws SQLException {
-    String topic = "CREATE TABLE IF NOT EXISTS topic (\n"
+    var topic = "CREATE TABLE IF NOT EXISTS topic (\n"
         + "  name text PRIMARY KEY\n"
         + ")";
-    String note = "CREATE TABLE IF NOT EXISTS note (\n"
+    var note = "CREATE TABLE IF NOT EXISTS note (\n"
         + "  topic text,\n"
         + "  content text,\n"
         + "  PRIMARY KEY (topic, content),\n"
         + "  FOREIGN KEY (topic) REFERENCES topic(name)\n"
         + ")";
-    try (Statement statement = connection.createStatement()) {
+    try (var statement = connection.createStatement()) {
       statement.execute(topic);
       statement.execute(note);
     }
@@ -254,9 +252,9 @@ public class DbStore implements Store {
    * @throws SQLException If the Connection couldn't be made.
    */
   private Connection openConnection(String path) throws SQLException {
-    String url = String.format("jdbc:sqlite:%s", path);
-    Connection connection = DriverManager.getConnection(url);
-    try (Statement statement = connection.createStatement()) {
+    var url = String.format("jdbc:sqlite:%s", path);
+    var connection = DriverManager.getConnection(url);
+    try (var statement = connection.createStatement()) {
       statement.execute("PRAGMA foreign_keys = ON");
     }
     return connection;

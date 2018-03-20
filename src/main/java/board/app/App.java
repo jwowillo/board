@@ -58,11 +58,11 @@ public class App {
   /** run the App. */
   public void run() {
     try (Store store = supplier.supply()) {
-      Collection<Observer> all = new ArrayList<>(observers);
+      var all = new ArrayList<Observer>(observers);
       all.add(new StoreObserver(store, handler));
       all.add((view) -> displayer.display(view));
-      Board board = loadBoard(store, handler);
-      Manager manager = new Manager(board, all);
+      var board = loadBoard(store, handler);
+      var manager = new Manager(board, all);
       try {
         prompter.prompt(manager);
       } catch (Exception exception) {
