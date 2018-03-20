@@ -1,5 +1,4 @@
 doc/api
 *.jar
-run_*
 target
 board.db
