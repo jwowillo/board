@@ -6,15 +6,15 @@ import board.gui.component.ViewComponent;
 
 public class GuiDisplayer implements Displayer {
 
-  private final ViewComponent viewComponent;
+  private final Updater updater;
 
-  public GuiDisplayer(ViewComponent viewComponent) {
-    this.viewComponent = viewComponent;
+  public GuiDisplayer(Updater updater) {
+    this.updater = updater;
   }
 
   @Override
   public void display(View view) {
-    viewComponent.show(view);
+    updater.update(view);
   }
 
 }

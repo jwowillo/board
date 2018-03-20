@@ -22,6 +22,10 @@ public class Manager {
   /** filters of Notes. */
   private final Set<Filter> filters;
 
+  public Manager(Board board) {
+    this(board, new ArrayList<>());
+  }
+
   /** Manager of the Board which is observed by the Collection of Observers. */
   public Manager(Board board, Collection<Observer> observers) {
     this.filters = new LinkedHashSet<>();
