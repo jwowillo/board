@@ -5,12 +5,10 @@ import board.Note;
 import board.Topic;
 import board.observer.Handler;
 
-import javafx.scene.text.Text;
-
-public class NoteRow extends Row {
+public class NoteRow extends RemoveRow {
 
   public NoteRow(Manager manager, Handler handler, Topic topic, Note note) {
-    super(new Text(note.content()), "X", () -> {
+    super(note.content(), () -> {
       try {
         manager.removeNote(topic, note);
       } catch (Exception exception) {

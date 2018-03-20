@@ -10,14 +10,14 @@ import javafx.scene.text.Text;
 
 import java.util.List;
 
-public class TopicTile extends VBox {
+public class Tile extends VBox {
 
-  public TopicTile(Manager manager, Handler handler,
-      Topic topic, List<Note> notes) {
+  public Tile(Manager manager, Handler handler, Topic topic, List<Note> notes) {
     getChildren().add(new TopicRow(manager, handler, topic));
     for (Note note : notes) {
       getChildren().add(new NoteRow(manager, handler, topic, note));
     }
+    getChildren().add(new AddNoteRow(manager, handler, topic));
   }
 
 }

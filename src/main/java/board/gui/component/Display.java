@@ -41,7 +41,8 @@ public class Display extends VBox {
   private void showManagerAndView() {
     ViewScroll viewScroll = new ViewScroll(currentManager, currentView,
         handler);
-    FilterScroll filterScroll = new FilterScroll(currentManager, currentView);
+    FilterScroll filterScroll = new FilterScroll(currentManager, currentView,
+        handler);
     getChildren().addAll(viewScroll, filterScroll);
   }
 
