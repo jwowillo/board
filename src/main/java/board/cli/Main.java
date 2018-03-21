@@ -8,7 +8,7 @@ import board.store.DbStore;
 /** Main runs the CLI. */
 public class Main {
 
-  /** main runs the CLI. */
+  /** main constructs and runs the App with CLI-objects. */
   public static void main(String[] args) {
     var handler = new StderrHandler();
     var prompter = new CliPrompter(handler);

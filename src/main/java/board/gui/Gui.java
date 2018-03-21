@@ -1,19 +1,22 @@
 package board.gui;
 
-import board.Board;
 import board.Manager;
 import board.View;
 import board.app.Displayer;
 import board.app.Prompter;
-import board.observer.Handler;
 import board.gui.component.ViewComponent;
+import board.observer.Handler;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Gui is a combined Prompter and Displayer that reports errors on the provided
+ * Handler.
+ */
 public class Gui implements Prompter, Displayer {
 
-  private final Stage stage;
+  private final Stage stage = new Stage();
 
   private final Handler handler;
 
@@ -22,7 +25,6 @@ public class Gui implements Prompter, Displayer {
   private View view;
 
   public Gui(Handler handler) {
-    this.stage = new Stage();
     this.handler = handler;
   }
 

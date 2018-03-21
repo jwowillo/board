@@ -14,40 +14,19 @@ import java.util.TreeMap;
 /** CliPrompter prompts for actions from the command-line. */
 public class CliPrompter implements Prompter {
 
-  /** Scanner to read input from. */
-  private final Scanner in;
-
-  /** Handler for errors. */
-  private Handler handler;
-
-  /** Option that can be run. */
   @FunctionalInterface
   private interface Option {
 
-    /**
-     * run the Option on the Manager.
-     *
-     * @throws Exception that may have occurred while running.
-     */
     void run(Manager manager) throws Exception;
 
   }
 
-  /**
-   * options that correspond to actions that can be performed on the Manager.
-   */
-  private final Map<Integer, Pair> options;
-
-  /** Pair of a label and a Option. */
   private class Pair {
 
-    /** label of the Pair. */
     public final String label;
 
-    /** Option ran when the label is selected. */
     public final Option option;
 
-    /** Pair with label and Option. */
     public Pair(String label, Option option) {
       this.label = label;
       this.option = option;
@@ -55,28 +34,16 @@ public class CliPrompter implements Prompter {
 
   }
 
-  /** CliPrompter constructed with options. */
+  private final Scanner in = new Scanner(System.in);
+
+  private final Map<Integer, Pair> options = new TreeMap<>();
+
+  private Handler handler;
+
   public CliPrompter(Handler handler) {
-    this.in = new Scanner(System.in);
     this.handler = handler;
-    this.options = new TreeMap<>();
-    Option option1 = m -> m.addTopic(promptTopic());
-    Option option2 = m -> m.removeTopic(promptTopic());
-    Option option3 = m -> m.addNote(promptTopic(), promptNote());
-    Option option4 = m -> m.removeNote(promptTopic(), promptNote());
-    Option option5 = m -> m.addFilter(promptFilter());
-    Option option6 = m -> m.removeFilter(promptFilter());
-    options.put(1, new Pair("Add Topic", option1));
-    options.put(2, new Pair("Remove Topic", option2));
-    options.put(3, new Pair("Add Note", option3));
-    options.put(4, new Pair("Remove Note", option4));
-    options.put(5, new Pair("Add Filter", option5));
-    options.put(6, new Pair("Remove Filter", option6));
   }
 
-  /**
-   * prompt actions to be performed on from the Manager from the command-line.
-   */
   @Override
   public void prompt(Manager manager) {
     while (true) {
@@ -103,7 +70,21 @@ public class CliPrompter implements Prompter {
     }
   }
 
-  /** promptTopic from the command-line. */
+  private void addOptions() {
+    Option option1 = m -> m.addTopic(promptTopic());
+    Option option2 = m -> m.removeTopic(promptTopic());
+    Option option3 = m -> m.addNote(promptTopic(), promptNote());
+    Option option4 = m -> m.removeNote(promptTopic(), promptNote());
+    Option option5 = m -> m.addFilter(promptFilter());
+    Option option6 = m -> m.removeFilter(promptFilter());
+    options.put(1, new Pair("Add Topic", option1));
+    options.put(2, new Pair("Remove Topic", option2));
+    options.put(3, new Pair("Add Note", option3));
+    options.put(4, new Pair("Remove Note", option4));
+    options.put(5, new Pair("Add Filter", option5));
+    options.put(6, new Pair("Remove Filter", option6));
+  }
+
   private Topic promptTopic() {
     System.out.print("Topic Name: ");
     var topic =  new Topic(in.nextLine());
@@ -111,7 +92,6 @@ public class CliPrompter implements Prompter {
     return topic;
   }
 
-  /** promptNote from the command-line. */
   private Note promptNote() {
     System.out.print("Note Content: ");
     var note = new Note(in.nextLine());
@@ -119,7 +99,6 @@ public class CliPrompter implements Prompter {
     return note;
   }
 
-  /** promptFilter from the command-line. */
   private Filter promptFilter() {
     System.out.print("Filter Term: ");
     Filter filter = new Filter(in.nextLine());

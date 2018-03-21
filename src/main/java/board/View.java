@@ -7,10 +7,8 @@ import java.util.function.Predicate;
 /** View is an immutable view of a Board with filtered Notes. */
 public class View {
 
-  /** board being viewed. */
   private final Board board;
 
-  /** filters on Notes. */
   private final List<Filter> filters;
 
   /** View with no Filters. */

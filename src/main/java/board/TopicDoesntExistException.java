@@ -5,9 +5,6 @@ package board;
  */
 public class TopicDoesntExistException extends BoardException {
 
-  /**
-   * TopicDoesntExistException initializes BoardException with a fixed message.
-   */
   public TopicDoesntExistException() {
     super("topic doesn't exist");
   }

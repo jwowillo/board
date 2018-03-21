@@ -10,13 +10,7 @@ import java.util.Set;
 /** Board connects Topics and Notes. */
 public class Board {
 
-  /** topics maps Topics to their Notes. */
-  private final Map<Topic, Set<Note>> topics;
-
-  /** Board with no Topics and no Notes. */
-  public Board() {
-    this.topics = new LinkedHashMap<>();
-  }
+  private final Map<Topic, Set<Note>> topics = new LinkedHashMap<>();
 
   /**
    * addTopic to the Board.

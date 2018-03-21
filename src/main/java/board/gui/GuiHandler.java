@@ -9,6 +9,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/** GuiHandler displayers errors on a new window. */
 public class GuiHandler implements Handler {
 
   @Override

@@ -11,8 +11,10 @@ import board.store.DbStore;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/** Main runs the GUI. */
 public class Main extends Application {
 
+  /** main constructs and runs the App with GUI-objects. */
   public static void main(String[] args) {
     launch(args);
   }

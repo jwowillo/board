@@ -8,19 +8,16 @@ import java.util.Set;
 /**
  * Manager mediates Board interactions and notifies all Observers of changes.
  *
- * If an Observer takes long to observe, it is recommended to have it observe in
- * a separate thread.
+ * <p>If an Observer takes long to observe, it is recommended to have it observe
+ * in a separate thread.
  */
 public class Manager {
 
-  /** board being managed. */
+  private final Set<Filter> filters = new LinkedHashSet<>();
+
   private final Board board;
 
-  /** observers of the Board. */
   private final Collection<Observer> observers;
-
-  /** filters of Notes. */
-  private final Set<Filter> filters;
 
   public Manager(Board board) {
     this(board, new ArrayList<>());
@@ -28,7 +25,6 @@ public class Manager {
 
   /** Manager of the Board which is observed by the Collection of Observers. */
   public Manager(Board board, Collection<Observer> observers) {
-    this.filters = new LinkedHashSet<>();
     this.board = board;
     this.observers = observers;
     notifyObservers();
@@ -100,7 +96,6 @@ public class Manager {
     notifyObservers();
   }
 
-  /** notifyObservers notifies the Observers. */
   private void notifyObservers() {
     var view = new View(board, new ArrayList<>(filters));
     for (var observer : observers) {

@@ -10,8 +10,16 @@ import javafx.scene.text.Text;
 
 import java.util.List;
 
+/**
+ * TopicAndNotesComponent displays a Topic and its Notes along with an entry to
+ * add new Notes.
+ */
 public class TopicAndNotesComponent extends VBox {
 
+  /**
+   * TopicAndNotesComponent adds Notes to the Manager, handles errors with
+   * Handler, and displays the Topic and the Notes.
+   */
   public TopicAndNotesComponent(Manager manager, Handler handler, Topic topic,
       List<Note> notes) {
     getChildren().add(new TopicComponent(manager, handler, topic));

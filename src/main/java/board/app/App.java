@@ -11,41 +11,31 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * App where users are prompted by a Prompter and have results displayed by a
- * Displayer.
+ * App that prompts with a Prompter and has results displayed by a Displayer.
  *
  * <p>A Handler handles exceptions and a StoreSupplier supplies the Store which
- * determines the initial Board and saves other Boards.
- *
- * <p>Other Observers can also be included.
+ * determines the initial Board and saves other Boards. Other Observers can also
+ * be included.
  */
 public class App {
 
-  /** Prompter of user interactions. */
   private final Prompter prompter;
 
-  /** Displayer of Views. */
   private final Displayer displayer;
 
-  /** Handler of Exceptions. */
   private final Handler handler;
 
-  /** Supplier of Stores. */
   private final StoreSupplier supplier;
 
-  /** Observers of changes. */
   private final Collection<Observer> observers;
 
-  /** App with Prompter, Displayer, Store, and Handler set. */
+  /** App with necessary components. */
   public App(Prompter prompter, Displayer displayer, Handler handler,
       StoreSupplier supplier) {
     this(prompter, displayer, handler, supplier, new ArrayList<>());
   }
 
-  /**
-   * App with Prompter, Displayer, Store, and Handler set and additional
-   * Observers observing.
-   */
+  /** App with additional Observers. */
   public App(Prompter prompter, Displayer displayer, Handler handler,
         StoreSupplier supplier, Collection<Observer> observers) {
     this.prompter = prompter;
@@ -73,7 +63,6 @@ public class App {
     }
   }
 
-  /** loadBoard from the Store and handle errors with the Handler. */
   private static Board loadBoard(Store store, Handler handler) {
     try {
       return store.board();
